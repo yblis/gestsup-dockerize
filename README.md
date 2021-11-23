@@ -1,7 +1,7 @@
 # gestsup-dockerizé
 Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour facilité le déploiement.
 
-1. Récuperer les fichier 
+1. Récuperer les fichiers
 
 ```
 git clone https://github.com/yblis/gestsup-dockeriz-.git gestsup

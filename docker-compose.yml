@@ -8,8 +8,8 @@ services:
 # ╚═══════════════╝
   gestsup:
     build: .
-#    ports:
-#      - 3010:80
+    ports:
+      - 3010:80
     environment:
       PHP_VERSION: 7.3
       GESTSUP_VERSION: 3.2.15

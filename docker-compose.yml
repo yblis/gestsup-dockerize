@@ -1,0 +1,60 @@
+version: "3"
+# ╔═════════════════════════════════════╗
+# ║ Services                            ║
+# ╚═════════════════════════════════════╝
+services:
+# ╔═════════════════════════════════════╗
+# ║ gestsup
+# ╚═══════════════╝
+  gestsup:
+    build: .
+#    ports:
+#      - 3010:80
+    environment:
+      PHP_VERSION: 7.3
+      GESTSUP_VERSION: 3.2.15
+    depends_on:
+      - mariadb
+    volumes:
+      - ./html:/var/www/html/
+    networks:
+      - gestsup
+# ╔═══════════════╗
+# ║ gestsup
+# ╚═════════════════════════════════════╝
+# ╔═════════════════════════════════════╗
+# ║ mariadb
+# ╚═══════════════╝
+  mariadb:
+    image: mariadb:10.3
+    environment:
+      MYSQL_ROOT_PASSWORD: Boussefsaf47
+      MYSQL_DATABASE: bsup
+      MYSQL_USER: gestsup
+      MYSQL_PASSWORD: gestsup
+    restart: on-failure
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - gestsup
+# ╔═══════════════╗
+# ║ mariadb
+# ╚═════════════════════════════════════╝
+# ╔═════════════════════════════════════╗
+# ║ volumes
+# ╚═══════════════╝
+volumes:
+  html: {}
+  mysql: {}
+# ╔═══════════════╗
+# ║ volumes
+# ╚═════════════════════════════════════╝
+# ╔═════════════════════════════════════╗
+# ║ networks
+# ╚═══════════════╝
+networks:
+  gestsup:
+    internal: true
+# ╔═══════════════╗
+# ║ networks
+# ╚═════════════════════════════════════╝

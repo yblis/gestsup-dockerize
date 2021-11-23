@@ -1,5 +1,10 @@
 # gestsup-dockerizé
 Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour facilité le déploiement.
+---
+
+Prérequis:
+
+Avoir **docker** & **docker-compose** d'installer 
 
 1. Récuperer les fichiers
 

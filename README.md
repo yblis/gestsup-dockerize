@@ -1,5 +1,5 @@
 # gestsup-dockerizé
-Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour facilité le déploiement.
+Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour faciliter le déploiement.
 ---
 
 Prérequis:
@@ -24,4 +24,4 @@ docker-compose up -d --buil
 ```
 Se connecter sur http://localhost:3010
 
-Changez de port au besoin
+Changez de port du fichier docker-compose.yml au besoin

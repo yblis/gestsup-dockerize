@@ -17,7 +17,7 @@ git clone https://github.com/yblis/gestsup-dockerize.git gestsup
 ```
 cd gestsup/
 ```
-lancer le docker-compose pour créer le conteneur
+lancer le docker-compose pour créer les conteneurs
 
 ```
 docker-compose up -d --build

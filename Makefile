@@ -1,4 +1,4 @@
-# Commonly used commands, compatible with Linux type shells
+# Installation de gestsup
 install:
 	docker-compose up -d --build
 

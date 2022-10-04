@@ -11,8 +11,8 @@ services:
     ports:
       - 3010:80
     environment:
-      PHP_VERSION: 7.3
-      GESTSUP_VERSION: 3.2.15
+      PHP_VERSION: 7.4
+      GESTSUP_VERSION: 3.2.25
     depends_on:
       - mariadb
     volumes:

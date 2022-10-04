@@ -20,7 +20,7 @@ cd gestsup/
 lancer le docker-compose pour créer les conteneurs
 
 ```
-docker-compose up -d --build
+make install
 ```
 Se connecter sur http://localhost:3010
 

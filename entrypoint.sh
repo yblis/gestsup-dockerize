@@ -15,16 +15,6 @@ chmod 770 -R /var/www/html/backup
 chmod 770 -R /var/www/html/_SQL
 chmod 660 /var/www/html/connect.php
 
-
-adduser gestsup --ingroup www-data
-chown -R gestsup:www-data /var/www/html
-find /var/www/html/ -type d -exec chmod 750 {} \; 
-find /var/www/html/ -type f -exec chmod 640 {} \;
-chmod 770 -R /var/www/html/upload
-chmod 770 -R /var/www/html/images/model
-chmod 770 -R /var/www/html/backup
-chmod 770 -R /var/www/html/_SQL
-chmod 660 /var/www/html/connect.php
 # Masquez la version d'apache utilisez. Passer "ServerTokens" à "Prod" et "ServerSignature" à "Off" dans security.conf.
 
 FILE="/etc/apache2/conf-available/security.conf"

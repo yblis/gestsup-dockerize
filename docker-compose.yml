@@ -1,59 +1,47 @@
 version: "3"
-# ╔═════════════════════════════════════╗
-# ║ Services                            ║
-# ╚═════════════════════════════════════╝
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
 services:
-# ╔═════════════════════════════════════╗
-# ║ gestsup
-# ╚═══════════════╝
   gestsup:
     build: .
     ports:
       - 3010:80
     environment:
-      PHP_VERSION: 7.4
-      GESTSUP_VERSION: 3.2.25
+      PHP_VERSION: 8.1
+      GESTSUP_VERSION: 3.2.30
     depends_on:
       - mariadb
     volumes:
       - ./html:/var/www/html/
     networks:
-      - gestsup
-# ╔═══════════════╗
-# ║ gestsup
-# ╚═════════════════════════════════════╝
-# ╔═════════════════════════════════════╗
-# ║ mariadb
-# ╚═══════════════╝
+      - internal
+      - web
+    labels:
+      - traefik.http.routers.gestsup.rule=Host(`xxx.domain.fr`)
+      - traefik.http.routers.gestsup.tls=true
+      - traefik.http.routers.gestsup.tls.certresolver=myresolver
+      - traefik.docker.network=web
+    container_name: gestsup
+
   mariadb:
     image: mariadb:10.3
     environment:
-      MYSQL_ROOT_PASSWORD: nsVW3KGz6ur
+      MYSQL_ROOT_PASSWORD: xxxxxxxxx
       MYSQL_DATABASE: bsup
       MYSQL_USER: gestsup
-      MYSQL_PASSWORD: G5HwJGggLacSa
+      MYSQL_PASSWORD: yyyyyyyyy
     restart: on-failure
     volumes:
       - ./mysql:/var/lib/mysql
     networks:
-      - gestsup
-# ╔═══════════════╗
-# ║ mariadb
-# ╚═════════════════════════════════════╝
-# ╔═════════════════════════════════════╗
-# ║ volumes
-# ╚═══════════════╝
+      - internal
+    container_name: mariadb_gestsup
+
 volumes:
   html: {}
   mysql: {}
-# ╔═══════════════╗
-# ║ volumes
-# ╚═════════════════════════════════════╝
-# ╔═════════════════════════════════════╗
-# ║ networks
-# ╚═══════════════╝
-networks:
-  gestsup:
-# ╔═══════════════╗
-# ║ networks
-# ╚═════════════════════════════════════╝

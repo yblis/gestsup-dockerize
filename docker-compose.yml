@@ -15,7 +15,7 @@ services:
       PHP_VERSION: 8.1
       GESTSUP_VERSION: 3.2.30
     depends_on:
-      - mariadb_gestsup
+      - mariadb
     volumes:
       - ./html:/var/www/html/
     networks:

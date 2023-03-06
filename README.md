@@ -9,7 +9,7 @@ Avoir **docker** & **docker-compose** d'installer
 1. Récuperer les fichiers
 
 ```
-git clone https://github.com/yblis/gestsup-dockerize.git gestsup
+git clone https://github.com/jeremybessard/gestsup-docker.git gestsup
 ```
 
 2. Se rendre sur le dossier gestsup

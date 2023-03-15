@@ -1,5 +1,5 @@
-# Docker GestSup (PHP 8.1 ready)
-Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour faciliter le déploiement.
+# Docker GestSup (Traefik + PHP 8.1 ready)
+Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerisé pour faciliter le déploiement.
 ---
 
 Prérequis:
@@ -22,6 +22,5 @@ lancer le docker-compose pour créer les conteneurs
 ```
 make install
 ```
-Se connecter sur http://localhost:3010
 
 Changez de port du fichier docker-compose.yml au besoin

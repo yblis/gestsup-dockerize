@@ -1,9 +1,7 @@
 # Docker GestSup (Traefik + PHP 8.1 ready)
 ---
 
-Prérequis:
-
-Avoir **Docker** & **Docker-Compose** d'installer.
+Prérequis: **Docker** & **Docker-Compose**
 
 1. Récuperer les fichiers
 

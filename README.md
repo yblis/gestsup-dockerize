@@ -14,8 +14,9 @@ git clone https://github.com/jeremybessard/gestsup-docker.git gestsup
 ```
 cd gestsup/
 ```
-3. Lancer le docker-compose pour créer les conteneurs
+3. Installer make et lancer le docker-compose pour créer les conteneurs
 
 ```
+apt-get -y install make
 make install
 ```

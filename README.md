@@ -1,4 +1,4 @@
-# gestsup-dockerizé
+# Docker GestSup (PHP 8.1 ready)
 Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour faciliter le déploiement.
 ---
 

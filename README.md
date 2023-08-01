@@ -1,27 +1,29 @@
-# gestsup-dockerizé
-Il s'agit d'un logiciel de ticketing [Gestsup](https://gestsup.fr/) dockerizé pour faciliter le déploiement.
+# gestsup-dockerized
+This is a dockerized version of the ticketing software [Gestsup](https://gestsup.fr/) to simplify deployment.
 ---
 
-Prérequis:
+Prerequisites:
 
-Avoir **docker** & **docker-compose** d'installer 
+Have **docker** & **docker-compose** installed.
 
-1. Récuperer les fichiers
+1. Retrieve the files
 
 ```
 git clone https://github.com/yblis/gestsup-dockerize.git gestsup
 ```
 
-2. Se rendre sur le dossier gestsup
+2. Navigate to the gestsup directory
 
 ```
 cd gestsup/
 ```
-lancer le docker-compose pour créer les conteneurs
+
+Launch the docker-compose to create the containers
 
 ```
 make install
 ```
-Se connecter sur http://localhost:3010
 
-Changez de port du fichier docker-compose.yml au besoin
+Connect to http://localhost:3010
+
+Change the port in the docker-compose.yml file if needed.

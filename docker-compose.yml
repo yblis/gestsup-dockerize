@@ -28,10 +28,10 @@ services:
   mariadb:
     image: mariadb:10.3
     environment:
-      MYSQL_ROOT_PASSWORD: nsVW3KGz6ur
+      MYSQL_ROOT_PASSWORD: CHANGEME
       MYSQL_DATABASE: bsup
       MYSQL_USER: gestsup
-      MYSQL_PASSWORD: G5HwJGggLacSa
+      MYSQL_PASSWORD: CHANGEME
     restart: on-failure
     volumes:
       - ./mysql:/var/lib/mysql

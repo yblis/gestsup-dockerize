@@ -11,6 +11,7 @@ realright:
 	chmod 770 -R ./html/backup
 	chmod 770 -R ./html/_SQL
 	chmod 660 ./html/connect.php
+	chown -R www-data:www-data ./html/sessions
   
 # Modification de droit pour MAJ gestsup
 majright:

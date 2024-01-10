@@ -2,7 +2,7 @@
 wget -P /var/www/html https://gestsup.fr/downloads/versions/current/version/gestsup_$GESTSUP_VERSION.zip
 unzip /var/www/html/gestsup_$GESTSUP_VERSION.zip -d /var/www/html
 rm /var/www/html/gestsup_$GESTSUP_VERSION.zip
-rm /var/www/html/index.html
+# rm /var/www/html/index.html
 
 # adduser gestsup --ingroup www-data
 adduser --disabled-password --gecos "" gestsup
@@ -13,6 +13,7 @@ chmod 770 -R /var/www/html/upload
 chmod 770 -R /var/www/html/images/model
 chmod 770 -R /var/www/html/backup
 chmod 770 -R /var/www/html/_SQL
+chown -R www-data:www-data /var/lib/php/sessions
 chmod 660 /var/www/html/connect.php
 
 # Masquez la version d'apache utilisez. Passer "ServerTokens" à "Prod" et "ServerSignature" à "Off" dans security.conf.

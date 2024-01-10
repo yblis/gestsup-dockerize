@@ -7,12 +7,13 @@ services:
 # ║ gestsup
 # ╚═══════════════╝
   gestsup:
-    build: .
+    build:
+      context: .
+      args:
+        PHP_VERSION: "8.2"
+        GESTSUP_VERSION: "3.2.40"
     ports:
       - 3010:80
-    environment:
-      PHP_VERSION: 7.4
-      GESTSUP_VERSION: 3.2.25
     depends_on:
       - mariadb
     volumes:
@@ -26,7 +27,7 @@ services:
 # ║ mariadb
 # ╚═══════════════╝
   mariadb:
-    image: mariadb:10.3
+    image: mariadb:10.4
     environment:
       MYSQL_ROOT_PASSWORD: CHANGEME
       MYSQL_DATABASE: bsup

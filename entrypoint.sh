@@ -4,8 +4,8 @@ unzip /var/www/html/gestsup_$GESTSUP_VERSION.zip -d /var/www/html
 rm /var/www/html/gestsup_$GESTSUP_VERSION.zip
 rm /var/www/html/index.html
 
-
-adduser gestsup --ingroup www-data
+# adduser gestsup --ingroup www-data
+adduser --disabled-password --gecos "" gestsup
 chown -R gestsup:www-data /var/www/html
 find /var/www/html/ -type d -exec chmod 750 {} \; 
 find /var/www/html/ -type f -exec chmod 640 {} \;

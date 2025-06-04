@@ -1,0 +1,153 @@
+name: Publish Docker Container
+
+on:
+  push:
+    branches: 
+      - main
+      - master
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  PHP_VERSION: "8.2"
+  GESTSUP_VERSION: "3.2.40"
+
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=php${{ env.PHP_VERSION }}-gestsup${{ env.GESTSUP_VERSION }}
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          build-args: |
+            PHP_VERSION=${{ env.PHP_VERSION }}
+            GESTSUP_VERSION=${{ env.GESTSUP_VERSION }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test container startup
+        run: |
+          # Start container in background
+          docker run -d --name test-gestsup \
+            -p 8080:80 \
+            -e PHP_VERSION=${{ env.PHP_VERSION }} \
+            -e GESTSUP_VERSION=${{ env.GESTSUP_VERSION }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:php${{ env.PHP_VERSION }}-gestsup${{ env.GESTSUP_VERSION }}
+          
+          # Wait for container to be ready
+          sleep 30
+          
+          # Check if container is running
+          if ! docker ps | grep -q test-gestsup; then
+            echo "Container failed to start"
+            docker logs test-gestsup
+            exit 1
+          fi
+          
+          echo "Container started successfully"
+
+      - name: Test Apache accessibility
+        run: |
+          # Test if Apache is responding
+          max_attempts=10
+          attempt=0
+          
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f -s http://localhost:8080 > /dev/null; then
+              echo "Apache is accessible"
+              break
+            fi
+            
+            attempt=$((attempt + 1))
+            echo "Attempt $attempt/$max_attempts: Apache not yet accessible, waiting..."
+            sleep 10
+          done
+          
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Apache is not accessible after $max_attempts attempts"
+            docker logs test-gestsup
+            exit 1
+          fi
+
+      - name: Validate PHP configuration
+        run: |
+          # Check PHP version in container
+          php_output=$(docker exec test-gestsup php -v)
+          echo "PHP version output: $php_output"
+          
+          if echo "$php_output" | grep -q "PHP ${{ env.PHP_VERSION }}"; then
+            echo "PHP version ${{ env.PHP_VERSION }} is correctly configured"
+          else
+            echo "PHP version ${{ env.PHP_VERSION }} not found in output"
+            exit 1
+          fi
+          
+          # Check PHP modules
+          echo "Checking required PHP modules..."
+          docker exec test-gestsup php -m | grep -E "(mysql|xml|curl|imap|ldap|zip|mbstring|gd|intl)" || {
+            echo "Required PHP modules not found"
+            docker exec test-gestsup php -m
+            exit 1
+          }
+          
+          echo "PHP configuration validated successfully"
+
+      - name: Cleanup test container
+        if: always()
+        run: |
+          docker stop test-gestsup || true
+          docker rm test-gestsup || true
+
+      - name: Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            PHP_VERSION=${{ env.PHP_VERSION }}
+            GESTSUP_VERSION=${{ env.GESTSUP_VERSION }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Output image details
+        run: |
+          echo "Published Docker image with the following tags:"
+          echo "${{ steps.meta.outputs.tags }}"
